@@ -1,0 +1,6 @@
+# Development dependencies
+-r requirements.txt
+
+# Development tools
+pytest>=7.0.0
+pytest-asyncio>=0.20.0

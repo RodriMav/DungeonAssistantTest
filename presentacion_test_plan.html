@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Pruebas - DungeonAssistant</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+    <style>
+        :root {
+            --r-background-color: #1a1a2e;
+            --r-main-color: #e0e0e0;
+            --r-heading-color: #d4a843;
+            --r-link-color: #c9a227;
+        }
+        .reveal {
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .reveal h1 {
+            font-size: 2.2em;
+            color: #d4a843;
+        }
+        .reveal h2 {
+            font-size: 1.6em;
+            color: #d4a843;
+            border-bottom: 2px solid #d4a843;
+            padding-bottom: 10px;
+        }
+        .reveal .slide-title {
+            text-align: center;
+        }
+        .reveal .slide-title h1 {
+            font-size: 2.8em;
+            margin-bottom: 0;
+        }
+        .reveal .subtitle {
+            color: #aaa;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .reveal .d20 {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+        .reveal table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7em;
+        }
+        .reveal th {
+            background: #d4a843;
+            color: #1a1a2e;
+            padding: 10px;
+            text-align: left;
+        }
+        .reveal td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #333;
+        }
+        .reveal tr:nth-child(even) {
+            background: rgba(212, 168, 67, 0.1);
+        }
+        .reveal .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            text-align: left;
+        }
+        .reveal .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .reveal .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #d4a843;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .reveal .card h3 {
+            color: #d4a843;
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+        .reveal .card .number {
+            font-size: 2.5em;
+            color: #d4a843;
+            font-weight: bold;
+        }
+        .reveal ul {
+            text-align: left;
+        }
+        .reveal li {
+            margin: 8px 0;
+        }
+        .reveal .highlight {
+            color: #d4a843;
+            font-weight: bold;
+        }
+        .reveal .priority-critical {
+            color: #ff4444;
+            font-weight: bold;
+        }
+        .reveal .priority-high {
+            color: #ff8800;
+        }
+        .reveal .priority-medium {
+            color: #ffcc00;
+        }
+        .reveal .priority-low {
+            color: #88cc88;
+        }
+        .reveal .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+        }
+        .reveal .timeline-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        .reveal .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #d4a843;
+        }
+        .reveal .timeline-item:last-child::after {
+            display: none;
+        }
+        .reveal .timeline-dot {
+            width: 40px;
+            height: 40px;
+            background: #d4a843;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a2e;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+        .reveal .risk-high {
+            border-left: 4px solid #ff4444;
+            padding-left: 15px;
+            margin: 10px 0;
+        }
+        .reveal .risk-medium {
+            border-left: 4px solid #ff8800;
+            padding-left: 15px;
+            margin: 10px 0;
+        }
+        .reveal .risk-low {
+            border-left: 4px solid #88cc88;
+            padding-left: 15px;
+            margin: 10px 0;
+        }
+        .reveal .footer-info {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.6em;
+            color: #666;
+        }
+        .reveal .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        .reveal .tech-item {
+            text-align: center;
+        }
+        .reveal .tech-item .icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .reveal .success-metric {
+            text-align: center;
+            padding: 15px;
+        }
+        .reveal .success-metric .value {
+            font-size: 3em;
+            color: #d4a843;
+            font-weight: bold;
+        }
+        .reveal .success-metric .label {
+            font-size: 0.9em;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Portada -->
+            <section class="slide-title">
+                <div class="d20">🎲</div>
+                <h1>DungeonAssistant</h1>
+                <p class="subtitle">Plan de Pruebas v1.0</p>
+                <p style="color: #666; margin-top: 40px; font-size: 0.8em;">
+                    PWA Mobile-First para Campañas D&D 5e con IA
+                </p>
+                <p style="color: #888; margin-top: 60px; font-size: 0.7em;">
+                    Junio 2026
+                </p>
+            </section>
+
+            <!-- Slide 2: Agenda -->
+            <section>
+                <h2>Agenda</h2>
+                <ol style="text-align: left; font-size: 0.9em; line-height: 2;">
+                    <li>Resumen Ejecutivo</li>
+                    <li>Alcance del Proyecto</li>
+                    <li>Estrategia de Pruebas</li>
+                    <li>Cronograma</li>
+                    <li>Entorno y Recursos</li>
+                    <li>Casos de Prueba Clave</li>
+                    <li>Riesgos y Mitigaciones</li>
+                    <li>Criterios de Éxito</li>
+                </ol>
+            </section>
+
+            <!-- Slide 3: Resumen Ejecutivo -->
+            <section>
+                <h2>Resumen Ejecutivo</h2>
+                <p style="text-align: left; margin-bottom: 30px;">
+                    Validar la funcionalidad, rendimiento y seguridad de <span class="highlight">DungeonAssistant</span> antes del lanzamiento oficial.
+                </p>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="number">7</div>
+                        <h3>Módulos Backend</h3>
+                        <p style="font-size: 0.7em;">FastAPI + Socket.io</p>
+                    </div>
+                    <div class="card">
+                        <div class="number">9</div>
+                        <h3>Módulos Frontend</h3>
+                        <p style="font-size: 0.7em;">React + Vite + PWA</p>
+                    </div>
+                    <div class="card">
+                        <div class="number">4</div>
+                        <h3>Integraciones</h3>
+                        <p style="font-size: 0.7em;">Supabase, Gemini, dnd5e, Socket</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Stack Tecnológico -->
+            <section>
+                <h2>Stack Tecnológico</h2>
+                <div class="grid-2">
+                    <div style="text-align: left;">
+                        <h3 style="color: #d4a843;">Backend</h3>
+                        <ul style="font-size: 0.8em;">
+                            <li>Python 3.11+ / FastAPI</li>
+                            <li>Socket.io (WebSockets)</li>
+                            <li>PostgreSQL (Supabase)</li>
+                            <li>Google Gemini API</li>
+                            <li>dnd5eapi.co</li>
+                        </ul>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: #d4a843;">Frontend</h3>
+                        <ul style="font-size: 0.8em;">
+                            <li>React 18 + Vite</li>
+                            <li>Tailwind CSS (mobile-first)</li>
+                            <li>Zustand (estado global)</li>
+                            <li>Socket.io-client</li>
+                            <li>PWA (vite-plugin-pwa)</li>
+                            <li>ammo.wasm (3D)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Alcance -->
+            <section>
+                <h2>Alcance de Pruebas</h2>
+                <div class="grid-2">
+                    <div style="text-align: left;">
+                        <h3 style="color: #44ff44;">✓ En Alcance</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Autenticación y autorización</li>
+                            <li>Gestión de campañas y roles</li>
+                            <li>Hoja de personaje D&D 5e</li>
+                            <li>Generación de NPCs con IA</li>
+                            <li>OCR de hojas físicas</li>
+                            <li>Asistente conversacional</li>
+                            <li>Sincronización en tiempo real</li>
+                            <li>PWA y modo offline</li>
+                            <li>Visor 3D de dados</li>
+                        </ul>
+                    </div>
+                    <div style="text-align: left;">
+                        <h3 style="color: #ff4444;">✗ Fuera de Alcance</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Pruebas de carga masiva (+100 usuarios)</li>
+                            <li>Penetration testing avanzado</li>
+                            <li>Compatibilidad IE11</li>
+                            <li>Dispositivos con OS &gt;2 años</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Estrategia de Pruebas -->
+            <section>
+                <h2>Estrategia de Pruebas</h2>
+                <table>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Herramienta</th>
+                    </tr>
+                    <tr>
+                        <td>Unitarias</td>
+                        <td>Funciones individuales</td>
+                        <td>pytest, Jest</td>
+                    </tr>
+                    <tr>
+                        <td>Integración</td>
+                        <td>Comunicación entre módulos</td>
+                        <td>pytest + httpx</td>
+                    </tr>
+                    <tr>
+                        <td>E2E</td>
+                        <td>Flujos completos de usuario</td>
+                        <td>Playwright</td>
+                    </tr>
+                    <tr>
+                        <td>API</td>
+                        <td>Endpoints REST</td>
+                        <td>pytest / Postman</td>
+                    </tr>
+                    <tr>
+                        <td>WebSocket</td>
+                        <td>Tiempo real</td>
+                        <td>socket.io-client</td>
+                    </tr>
+                    <tr>
+                        <td>UI/UX</td>
+                        <td>Responsive y usabilidad</td>
+                        <td>Manual</td>
+                    </tr>
+                    <tr>
+                        <td>Seguridad</td>
+                        <td>Auth, inyección, tokens</td>
+                        <td>Manual</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Slide 7: Priorización -->
+            <section>
+                <h2>Priorización de Pruebas</h2>
+                <div style="text-align: left; font-size: 0.75em;">
+                    <div class="risk-high">
+                        <strong class="priority-critical">P1 - CRÍTICA (Smoke Tests)</strong><br>
+                        Login/Registro • Crear campaña • Conexión WebSocket • Carga personaje • /health
+                    </div>
+                    <div class="risk-medium" style="border-color: #ff8800;">
+                        <strong class="priority-high">P2 - ALTA</strong><br>
+                        Gestión de roles • Edición personaje • NPCs con IA • OCR • Sync tiempo real
+                    </div>
+                    <div class="risk-medium" style="border-color: #ffcc00;">
+                        <strong class="priority-medium">P3 - MEDIA</strong><br>
+                        Temas visuales • Visor 3D • Crónicas • Búsqueda D&D 5e • Offline PWA
+                    </div>
+                    <div class="risk-low">
+                        <strong class="priority-low">P4 - BAJA</strong><br>
+                        Animaciones • Mensajes de error • Casos edge en validaciones
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Cronograma -->
+            <section>
+                <h2>Cronograma (45 días)</h2>
+                <div class="timeline" style="font-size: 0.6em;">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1</div>
+                        <strong>Planificación</strong><br>
+                        15-16 Jun<br>
+                        <span style="color: #888;">2 días</span>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">2</div>
+                        <strong>Diseño</strong><br>
+                        17-23 Jun<br>
+                        <span style="color: #888;">5 días</span>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">3</div>
+                        <strong>Ejecución</strong><br>
+                        24 Jun-17 Jul<br>
+                        <span style="color: #888;">20 días</span>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">4</div>
+                        <strong>Verificación</strong><br>
+                        18-22 Jul<br>
+                        <span style="color: #888;">5 días</span>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">5</div>
+                        <strong>Cierre</strong><br>
+                        23-30 Jul<br>
+                        <span style="color: #888;">6 días</span>
+                    </div>
+                </div>
+                <p style="font-size: 0.7em; color: #888; margin-top: 20px;">
+                    + 3 días buffer para imprevistos
+                </p>
+            </section>
+
+            <!-- Slide 9: Entorno -->
+            <section>
+                <h2>Entorno de Pruebas</h2>
+                <div class="grid-2">
+                    <div style="text-align: left; font-size: 0.75em;">
+                        <h3 style="color: #d4a843;">Infraestructura</h3>
+                        <ul>
+                            <li><strong>Backend:</strong> Python 3.11, FastAPI, uvicorn</li>
+                            <li><strong>Frontend:</strong> Node 18+, React 18, pnpm</li>
+                            <li><strong>DB:</strong> PostgreSQL (Supabase)</li>
+                            <li><strong>Deploy:</strong> Vercel</li>
+                        </ul>
+                    </div>
+                    <div style="text-align: left; font-size: 0.75em;">
+                        <h3 style="color: #d4a843;">Navegadores</h3>
+                        <ul>
+                            <li>Chrome 120+</li>
+                            <li>Firefox 115+</li>
+                            <li>Safari 17+</li>
+                            <li>Edge 120+</li>
+                            <li>iOS 16+ / Android 12+</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-top: 30px; text-align: center; font-size: 0.7em;">
+                    <strong>Datos de prueba:</strong> 5 usuarios • 3 campañas • 10 personajes • Hojas PDF para OCR
+                </div>
+            </section>
+
+            <!-- Slide 10: Casos de Prueba - Auth -->
+            <section>
+                <h2>Casos Clave: Autenticación</h2>
+                <table style="font-size: 0.65em;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Caso de Prueba</th>
+                        <th>Prioridad</th>
+                        <th>Tipo</th>
+                    </tr>
+                    <tr>
+                        <td>AUTH-001</td>
+                        <td>Registro exitoso con email válido</td>
+                        <td class="priority-critical">Crítica</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>AUTH-002</td>
+                        <td>Login exitoso con credenciales válidas</td>
+                        <td class="priority-critical">Crítica</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>AUTH-003</td>
+                        <td>Login fallido con credenciales inválidas</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>AUTH-004</td>
+                        <td>Recuperación de contraseña</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>AUTH-005</td>
+                        <td>Token JWT válido en todas las peticiones</td>
+                        <td class="priority-critical">Crítica</td>
+                        <td>Seguridad</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Slide 11: Casos de Prueba - Campañas -->
+            <section>
+                <h2>Casos Clave: Campañas</h2>
+                <table style="font-size: 0.65em;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Caso de Prueba</th>
+                        <th>Prioridad</th>
+                        <th>Tipo</th>
+                    </tr>
+                    <tr>
+                        <td>CAMP-001</td>
+                        <td>Crear campaña con nombre y lore</td>
+                        <td class="priority-critical">Crítica</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>CAMP-002</td>
+                        <td>Listar campañas del usuario</td>
+                        <td class="priority-critical">Crítica</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>CAMP-003</td>
+                        <td>Editar campaña (solo GM)</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>CAMP-005</td>
+                        <td>Invitar jugador a campaña</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>CAMP-006</td>
+                        <td>Cambiar rol GM ↔ Player</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Funcional</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Slide 12: Casos de Prueba - Personaje -->
+            <section>
+                <h2>Casos Clave: Personaje D&D 5e</h2>
+                <table style="font-size: 0.65em;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Caso de Prueba</th>
+                        <th>Prioridad</th>
+                        <th>Tipo</th>
+                    </tr>
+                    <tr>
+                        <td>CHAR-001</td>
+                        <td>Crear personaje con datos básicos</td>
+                        <td class="priority-critical">Crítica</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>CHAR-002</td>
+                        <td>Validación de atributos D&D 5e</td>
+                        <td class="priority-critical">Crítica</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>CHAR-003</td>
+                        <td>Cálculo automático de modificadores</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Funcional</td>
+                    </tr>
+                    <tr>
+                        <td>CHAR-005</td>
+                        <td>Validación contra dnd5eapi.co</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Integración</td>
+                    </tr>
+                    <tr>
+                        <td>CHAR-006</td>
+                        <td>OCR de hoja física (Gemini Vision)</td>
+                        <td class="priority-high">Alta</td>
+                        <td>Funcional</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Slide 13: Casos de Prueba - Tiempo Real e IA -->
+            <section>
+                <h2>Casos Clave: WebSocket e IA</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3 style="color: #d4a843; font-size: 0.9em;">⚡ Tiempo Real</h3>
+                        <table style="font-size: 0.6em;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Caso</th>
+                                <th>Prio</th>
+                            </tr>
+                            <tr>
+                                <td>WS-001</td>
+                                <td>Conexión WebSocket</td>
+                                <td class="priority-critical">C</td>
+                            </tr>
+                            <tr>
+                                <td>WS-002</td>
+                                <td>Notificación login</td>
+                                <td class="priority-high">A</td>
+                            </tr>
+                            <tr>
+                                <td>WS-003</td>
+                                <td>Sync notas compartidas</td>
+                                <td class="priority-high">A</td>
+                            </tr>
+                            <tr>
+                                <td>WS-004</td>
+                                <td>Reconexión automática</td>
+                                <td class="priority-high">A</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 style="color: #d4a843; font-size: 0.9em;">🤖 Inteligencia Artificial</h3>
+                        <table style="font-size: 0.6em;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Caso</th>
+                                <th>Prio</th>
+                            </tr>
+                            <tr>
+                                <td>AI-001</td>
+                                <td>Generar NPC con rasgos</td>
+                                <td class="priority-high">A</td>
+                            </tr>
+                            <tr>
+                                <td>AI-002</td>
+                                <td>Chat con contexto</td>
+                                <td class="priority-high">A</td>
+                            </tr>
+                            <tr>
+                                <td>AI-003</td>
+                                <td>OCR con Gemini Vision</td>
+                                <td class="priority-high">A</td>
+                            </tr>
+                            <tr>
+                                <td>AI-004</td>
+                                <td>Resumen de sesión</td>
+                                <td class="priority-medium">M</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: Riesgos -->
+            <section>
+                <h2>Riesgos y Mitigaciones</h2>
+                <table style="font-size: 0.65em;">
+                    <tr>
+                        <th>Riesgo</th>
+                        <th>Prob.</th>
+                        <th>Impacto</th>
+                        <th>Mitigación</th>
+                    </tr>
+                    <tr>
+                        <td>Plazos ajustados</td>
+                        <td style="color: #ff4444;">Alta</td>
+                        <td style="color: #ff4444;">Alto</td>
+                        <td>Priorizar tests críticos, automatizar</td>
+                    </tr>
+                    <tr>
+                        <td>Inestabilidad entorno</td>
+                        <td style="color: #ff8800;">Media</td>
+                        <td style="color: #ff4444;">Alto</td>
+                        <td>Entorno local como backup</td>
+                    </tr>
+                    <tr>
+                        <td>Servicios externos caídos</td>
+                        <td style="color: #ff8800;">Media</td>
+                        <td style="color: #ff4444;">Alto</td>
+                        <td>Mocks para Gemini y dnd5eapi</td>
+                    </tr>
+                    <tr>
+                        <td>Bugs críticos tardíos</td>
+                        <td style="color: #ff8800;">Media</td>
+                        <td style="color: #ff8800;">Alto</td>
+                        <td>Pruebas tempranas, CI/CD</td>
+                    </tr>
+                    <tr>
+                        <td>Cambios de último minuto</td>
+                        <td style="color: #ff4444;">Alta</td>
+                        <td style="color: #ffcc00;">Medio</td>
+                        <td>Buffer de 3 días incluido</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Slide 15: Métricas -->
+            <section>
+                <h2>Métricas de Éxito</h2>
+                <div class="grid-2" style="margin-top: 30px;">
+                    <div class="success-metric">
+                        <div class="value">95%</div>
+                        <div class="label">Tasa de aprobación<br>en tests críticos</div>
+                    </div>
+                    <div class="success-metric">
+                        <div class="value">100%</div>
+                        <div class="label">Cobertura de<br>requisitos</div>
+                    </div>
+                </div>
+                <div class="grid-3" style="margin-top: 20px;">
+                    <div class="success-metric">
+                        <div class="value" style="font-size: 2em;">&lt;0.1</div>
+                        <div class="label" style="font-size: 0.7em;">Densidad defectos</div>
+                    </div>
+                    <div class="success-metric">
+                        <div class="value" style="font-size: 2em;">&gt;90%</div>
+                        <div class="label" style="font-size: 0.7em;">Eficiencia detección</div>
+                    </div>
+                    <div class="success-metric">
+                        <div class="value" style="font-size: 2em;">&gt;60%</div>
+                        <div class="label" style="font-size: 0.7em;">Tests automatizados</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 16: Criterios -->
+            <section>
+                <h2>Criterios de Entrada y Salida</h2>
+                <div class="grid-2">
+                    <div style="text-align: left; font-size: 0.7em;">
+                        <h3 style="color: #44ff44;">▶ Entrada (Start)</h3>
+                        <ul>
+                            <li>Código desplegado en staging</li>
+                            <li>Base de datos configurada</li>
+                            <li>Variables de entorno listas</li>
+                            <li>Servicios externos verificados</li>
+                            <li>Casos de prueba aprobados</li>
+                        </ul>
+                    </div>
+                    <div style="text-align: left; font-size: 0.7em;">
+                        <h3 style="color: #ff4444;">■ Salida (Done)</h3>
+                        <ul>
+                            <li>95% tests críticos ejecutados</li>
+                            <li>100% tests críticos aprobados</li>
+                            <li>0 bugs críticos/severos abiertos</li>
+                            <li>Regresión completada</li>
+                            <li>UAT firmado</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 17: Entregables -->
+            <section>
+                <h2>Entregables</h2>
+                <div class="grid-3" style="font-size: 0.7em;">
+                    <div class="card">
+                        <h3>📋 Antes</h3>
+                        <ul style="text-align: left;">
+                            <li>Plan de pruebas</li>
+                            <li>Casos de prueba</li>
+                            <li>Datos de prueba</li>
+                            <li>Entorno configurado</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>⚙️ Durante</h3>
+                        <ul style="text-align: left;">
+                            <li>Log de ejecución</li>
+                            <li>Reporte de defectos</li>
+                            <li>Progreso diario</li>
+                            <li>Métricas cobertura</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>📊 Después</h3>
+                        <ul style="text-align: left;">
+                            <li>Reporte final</li>
+                            <li>Reporte UAT</li>
+                            <li>Lecciones aprendidas</li>
+                            <li>Release notes</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 18: Resumen -->
+            <section>
+                <h2>Resumen</h2>
+                <div style="font-size: 0.85em; text-align: left; margin-top: 30px;">
+                    <p><span class="highlight">Objetivo:</span> Validar DungeonAssistant antes del lanzamiento</p>
+                    <p><span class="highlight">Duración:</span> 45 días (15 Jun - 30 Jul 2026)</p>
+                    <p><span class="highlight">Cobertura:</span> 7 módulos backend + 9 frontend + 4 integraciones</p>
+                    <p><span class="highlight">Enfoque:</span> Riesgo-based testing con priorización clara</p>
+                    <p><span class="highlight">Meta:</span> 95% tests críticos aprobados, 0 bugs severos</p>
+                </div>
+                <div style="margin-top: 40px;">
+                    <p style="color: #d4a843; font-size: 1.2em;">🎲 ¡Que ruede el dado!</p>
+                </div>
+            </section>
+
+            <!-- Slide 19: Preguntas -->
+            <section class="slide-title">
+                <div class="d20">🎲</div>
+                <h1>¿Preguntas?</h1>
+                <p class="subtitle">Gracias por su atención</p>
+                <p style="color: #666; margin-top: 60px; font-size: 0.7em;">
+                    DungeonAssistant - Plan de Pruebas v1.0
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            width: 1200,
+            height: 700
+        });
+    </script>
+</body>
+</html>
