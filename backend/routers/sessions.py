@@ -2,6 +2,7 @@
 Router para sesiones de juego
 """
 
+from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, Depends
 from middleware.auth import get_current_user
 import logging
