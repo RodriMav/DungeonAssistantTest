@@ -1,4 +1,6 @@
 import logging
+import uuid
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, status, Depends, Body
 
 from models.schemas import CharacterCreate, CharacterStatusUpdate, CharacterUpdate
